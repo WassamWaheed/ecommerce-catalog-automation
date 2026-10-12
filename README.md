@@ -1,6 +1,6 @@
 # eCommerce Catalog Automation
 
-Reusable workflows for cleaning and validating product catalog data before marketplace uploads.
+Reusable Python workflows for cleaning and validating product catalog data before marketplace uploads.
 
 ## Typical Problems Solved
 - Extra whitespace and inconsistent formatting
@@ -10,21 +10,26 @@ Reusable workflows for cleaning and validating product catalog data before marke
 - Product-data QA before bulk uploads
 - Marketplace feed preparation
 
-## Example Python Workflow
+## Included Files
+- [Catalog Cleaner](catalog_cleaner.py)
+- [Demo Product Data](sample_products.csv)
+- [Example Output](EXAMPLE_OUTPUT.md)
+
+## Run the Demo
+
+```bash
+python catalog_cleaner.py sample_products.csv cleaned_products.csv
+```
+
+No third-party Python packages are required.
+
+## Core Logic
 
 ```python
-import csv
-
 REQUIRED = ["sku", "title", "brand", "price"]
 
 def clean(value):
     return " ".join((value or "").strip().split())
-
-def validate(row):
-    row = {k: clean(v) for k, v in row.items()}
-    row["sku"] = row.get("sku", "").upper()
-    missing = [field for field in REQUIRED if not row.get(field)]
-    return row, missing
 ```
 
 ## Why It Matters
